@@ -68,7 +68,8 @@ class KMeans:
             raise ValueError("input matrix must be a 2D array")
         
         
-        n_samples, n_features = mat.shape
+        # n_samples, n_features = mat.shape
+        n_samples = mat.shape[0]
         if n_samples < self.k:
             raise ValueError("number of datapoints must be >= k")
         
@@ -93,7 +94,7 @@ class KMeans:
 
             # check for convergence. end the loop either if iter reaches max iter, or the cluster assignments do not change anymore within some tolerance
             centroid_shift = np.linalg.norm(new_com - centroids, axis=1)
-            max_shift = np.maxx(centroid_shift)
+            max_shift = np.max(centroid_shift)
             # update centroid
             centroids = new_com
             if max_shift < self.tol:
