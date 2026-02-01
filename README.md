@@ -1,3 +1,5 @@
+[![BuildStatus](https://github.com/jessicaflowers/HW4-Clustering/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/jessicaflowers/HW4-Clustering/actions/workflows/test.yml)
+
 # Assignment 4
 Implementation of KMeans and Silhouette Scoring
 
