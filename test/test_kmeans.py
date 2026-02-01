@@ -1,1 +1,5 @@
-# Write your k-means unit tests here
+import pytest
+import numpy as np
+
+def check_kmeans():
+    pass
