@@ -25,8 +25,5 @@ dependencies = [
 ]
 requires-python = ">=3.7"
 
-[tool.setuptools]
-packages = ["cluster"]
-
 [project.urls]
 Home = "https://github.com/jessicaflowers/HW4-Clustering.git"
