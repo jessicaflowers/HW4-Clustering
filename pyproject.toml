@@ -10,8 +10,11 @@ pythonpath = [
 ]
 
 [project]
-name = "search"
-authors = [{name = "Jessica Flowers", email = "jessica.flowers@ucsf.edu"}]
+name = "CLUSTERING"
+authors = [{
+    name = "Jessica Flowers", 
+    email = "jessica.flowers@ucsf.edu"
+    }]
 readme = "README.md"
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: MIT License"]
