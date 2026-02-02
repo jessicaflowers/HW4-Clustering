@@ -8,15 +8,9 @@ build-backend = "flit_core.buildapi"
 pythonpath = [
   "."
 ]
-[tool.flit.module]
-name = "cluster"
-
 [project]
-name = "cluster"
-authors = [{
-    name = "Jessica Flowers", 
-    email = "jessica.flowers@ucsf.edu"
-    }]
+name = "search"
+authors = [{name = "Jessica Flowers", email = "jessica.flowers@ucsf.edu"}]
 readme = "README.md"
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: MIT License"]
