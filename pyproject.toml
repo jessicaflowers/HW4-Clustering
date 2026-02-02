@@ -9,7 +9,7 @@ pythonpath = [
   "."
 ]
 [project]
-name = "search"
+name = "cluster"
 authors = [{name = "Jessica Flowers", email = "jessica.flowers@ucsf.edu"}]
 readme = "README.md"
 license = {file = "LICENSE"}
