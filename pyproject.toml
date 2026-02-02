@@ -8,9 +8,11 @@ build-backend = "flit_core.buildapi"
 pythonpath = [
   "."
 ]
+[tool.flit.module]
+name = "cluster"
 
 [project]
-name = "CLUSTERING"
+name = "cluster"
 authors = [{
     name = "Jessica Flowers", 
     email = "jessica.flowers@ucsf.edu"
