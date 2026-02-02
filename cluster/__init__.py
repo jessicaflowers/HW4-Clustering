@@ -1,3 +1,6 @@
+"""
+BMI203 HW4 K-means clustering
+"""
 from .kmeans import KMeans
 from .silhouette import Silhouette
 from .utils import (
