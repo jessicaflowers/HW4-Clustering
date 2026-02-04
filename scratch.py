@@ -25,6 +25,9 @@ labels_pred = km.predict(X)
 centroids = km.get_centroids()
 err = km.get_error()
 
+print(len(set(labels_pred)))
+print(np.shape(labels_pred))
+print(set(labels_pred))
 
 sil = Silhouette()
 scores = sil.score(X, labels_pred)
