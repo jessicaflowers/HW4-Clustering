@@ -71,7 +71,7 @@ class KMeans:
         # n_samples, n_features = mat.shape
         n_samples = mat.shape[0]
         if n_samples < self.k:
-            raise ValueError("number of datapoints must be >= k")
+            raise ValueError("number of samples must be >= k")
         
 
         # ranomly place a centroid for each of the k clusters

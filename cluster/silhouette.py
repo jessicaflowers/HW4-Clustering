@@ -71,6 +71,7 @@ class Silhouette:
             # silhouette score
             denom = max(a,b)
             if denom == 0.0:
+                print("setting score to 0")
                 silhouette[i] = 0.0
             else:
                 silhouette[i] = (b - a)/denom

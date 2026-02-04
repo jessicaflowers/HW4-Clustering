@@ -3,6 +3,12 @@ from cluster.kmeans import KMeans
 from cluster.silhouette import Silhouette
 import sklearn
 
+from cluster.utils import (
+  make_clusters, 
+  plot_clusters, 
+  plot_multipanel)
+
+
 def test_silhouette():
     X = np.array([[0.0, 0.0],
                   [1.0, 1.0],
@@ -19,4 +25,15 @@ def test_silhouette():
     # compare the score i get from my Silhouette class to sklearn.metrics.silhouette_score
     sklearn_score = sklearn.metrics.silhouette_score(X, labels)
 
+    assert np.allclose(mean_my_score, sklearn_score, atol=1e-2)
+
+def test_silhouette_generated_data():
+    points, true_labels = make_clusters(n=7000)
+    km = KMeans(k=3)
+    km.fit(points)
+    pred_labels = km.predict(points)
+    sil = Silhouette()
+    scores = sil.score(points, pred_labels)
+    mean_my_score = np.mean(scores)
+    sklearn_score = sklearn.metrics.silhouette_score(points, pred_labels)
     assert np.allclose(mean_my_score, sklearn_score, atol=1e-2)
