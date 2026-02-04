@@ -65,13 +65,16 @@ class Silhouette:
                     continue
 
                 other_cluster_idx = np.where(y == other_label)[0] # points belonging to other clusters
-                dist_b = D[i, other_cluster_idx]
-                b = dist_b.mean()
+                # dist_b = D[i, other_cluster_idx]
+                # b = dist_b.mean()
+                mean_dist = D[i, other_cluster_idx].mean()
+                b = min(b, mean_dist)
+
 
             # silhouette score
             denom = max(a,b)
             if denom == 0.0:
-                print("setting score to 0")
+                # print("setting score to 0")
                 silhouette[i] = 0.0
             else:
                 silhouette[i] = (b - a)/denom
