@@ -26,6 +26,10 @@ class Silhouette:
         """
         n = X.shape[0] # n is the observations ie the rows 
         labels = np.unique(y) 
+        # if k = 1 this scoring func will not work
+        if labels.size < 2:
+            raise ValueError("Number of clusters is 1. Valid values begin at 2.")
+
 
         # calc all pairwise distances. store in D so i can index these later instead of needing to compute them in the for loop
         D = cdist(X, X, metric='euclidean') # D[i, j] = distance between point i and point j
@@ -47,7 +51,7 @@ class Silhouette:
                 a = dist_a.mean()
 
             # nearest-cluster distance
-            b = np.inf
+            b = np.inf # if k = 1 this will be a problem
             for other_label in labels: # loop over all other clusters
                 if other_label == label_:
                     continue
@@ -59,6 +63,7 @@ class Silhouette:
 
             # silhouette score
             denom = max(a,b)
+            print(denom)
             if denom == 0.0:
                 silhouette[i] = 0.0 # to avoid dividing by 0
             else:

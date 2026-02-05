@@ -2,7 +2,7 @@ import numpy as np
 from cluster.kmeans import KMeans
 from cluster.silhouette import Silhouette
 import sklearn
-
+import pytest
 from cluster.utils import make_clusters
 
 
@@ -41,3 +41,14 @@ def test_silhouette_generated_data():
     sklearn_score = sklearn.metrics.silhouette_score(points, pred_labels)
     # compare the score i get from my Silhouette class to sklearn.metrics.silhouette_score
     assert np.allclose(mean_my_score, sklearn_score, atol=1e-2)
+
+def test_silhouette_k1_raises():
+    X = np.array([[0.0, 0.0],
+                  [1.0, 1.0],
+                  [10.0, 10.0],
+                  [11.0, 11.0]])
+    km = KMeans(k=1)
+    km.fit(X)
+    labels_pred = km.predict(X)
+    with pytest.raises(ValueError, match="Number of clusters is 1. Valid values begin at 2"):
+        Silhouette().score(X, labels_pred)
