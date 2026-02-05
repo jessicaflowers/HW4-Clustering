@@ -17,24 +17,29 @@ from cluster.utils import (
 # labels = km.predict(X)
 
 
-X, labels_true = make_clusters(n=10000, k=3) # outputs mat, labels
-
-km = KMeans(k=3)
+# X, labels_true = make_clusters(n=500, k=0) # outputs mat, labels
+X = np.array([[0.0, 0.0],
+                  [1.0, 1.0],
+                  [10.0, 10.0],
+                  [11.0, 11.0]])
+km = KMeans(k=0)
 km.fit(X)
 labels_pred = km.predict(X)
 centroids = km.get_centroids()
 err = km.get_error()
 
-print(len(set(labels_pred)))
-print(np.shape(labels_pred))
-print(set(labels_pred))
+# print(len(set(labels_pred)))
+# print(np.shape(labels_pred))
+# print(set(labels_pred))
 
 sil = Silhouette()
 scores = sil.score(X, labels_pred)
-print(np.mean(scores))
+mean_my_score = np.mean(scores)
+print(mean_my_score)
 sklearn_score = silhouette_score(X, labels_pred)
 print(sklearn_score)
-
+print(sklearn_score - mean_my_score)
+print(np.allclose(mean_my_score, sklearn_score, atol=1e-2))
 # pred_counts = np.bincount(labels_pred, minlength=3)
 # print("predicted label counts:", pred_counts)
 # true_counts = np.bincount(labels_true, minlength=3)

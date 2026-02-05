@@ -1,12 +1,12 @@
 import numpy as np
 import pytest
 from cluster.kmeans import KMeans
-from cluster.utils import (
-  make_clusters, 
-  plot_clusters, 
-  plot_multipanel)
+from cluster.utils import make_clusters
 
 def test_assert_Errors():
+    """
+    Make sure all errors are raised properly in the kmeans.py
+    """
     # input not np array
     mat = [
         [1, 2, 3],
@@ -30,7 +30,6 @@ def test_assert_Errors():
     km = KMeans(k=5)
     with pytest.raises(ValueError, match="number of samples must be >= k"):
         km.fit(mat)
-
 
     # predict is called before fit
     mat = np.array([[0.0, 0.0],
@@ -59,7 +58,18 @@ def test_assert_Errors():
     with pytest.raises(RuntimeError, match="model has not been fit yet; no centroids"):
         km.get_centroids()
 
+def test_k_zero_raises():
+    """
+    test if i correctly raise an error when the user inputs k=0
+    """
+    with pytest.raises(ValueError, match="k must be a positive integer"):
+        KMeans(k=0)
+
+
 def test_kmeans():
+    """
+    does kmeans prediction work on very small dataset?
+    """
     X = np.array([[0.0, 0.0],
                   [1.0, 1.0],
                   [10.0, 10.0],
@@ -69,22 +79,24 @@ def test_kmeans():
     km.fit(X)
     labels = km.predict(X)
 
+    # Returns 1 label per data pt
     assert labels.shape == (X.shape[0],)
+    # check that the right number of centroids is saved (k = 2 centroids)
     assert km.get_centroids().shape == (2, X.shape[1])
+    # check error is a single numberic value
     assert isinstance(km.get_error(), float)
 
 def test_kmeans_on_generated_data():
-    points, true_labels = make_clusters(n=7000)
-    km = KMeans(k=4)
+    """
+    does algorithm work on larger dataset generated with the provided code?
+    """
+    points, true_labels = make_clusters(n=100, k=5)
+    km = KMeans(k=5)
     km.fit(points)
     pred_labels = km.predict(points)
     centroids = km.get_centroids()
     err = km.get_error()
-    assert len(centroids) == 4 # because i specified there are 4 clusters
-    assert len(set(pred_labels)) == 4 
-    # len(set(k_clusts))
-    # compare the original clusters to my kmeans clusters
-
-
+    assert len(centroids) == 5 # because i specified there are 5 clusters
+    assert len(set(pred_labels)) == 5
 
 

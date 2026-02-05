@@ -21,11 +21,12 @@ class KMeans:
                 the maximum number of iterations before quitting model fit
         """
 
+        
+
+        self.k = k
         # if user provides wrong type of input for k
         if not isinstance(k, int) or k<=0:
             raise ValueError('k must be a positive integer')
-
-        self.k = k
         self.tol = tol
         self.max_iter = max_iter
 
@@ -49,17 +50,6 @@ class KMeans:
                 A 2D matrix where the rows are observations and columns are features
         """
 
-        # randomly select k rows from mat to initialize the cluster centroids
-        # loop up to max_iter times
-        # for each xi datapoint
-            # find nearest centroid cj --> euclidean distance
-            # assign xi to cluster j
-        # for each cluster j = 1...k
-            # compute the new centroid center cj = mean of all points xi assigned to cluster j in previous step
-            # compute the change between the old and new centroid
-            # stop early if the biggest change is below tol
-        # save the final centroids as self.centroid 
-        # save the final error (the averaged square distance from each point to its centroid)
 
         if not isinstance(mat, np.ndarray):
             raise TypeError('input matrix must be a numpy array')
@@ -67,8 +57,7 @@ class KMeans:
         if mat.ndim != 2:
             raise ValueError("input matrix must be a 2D array")
         
-        
-        # n_samples, n_features = mat.shape
+        # get the observations 
         n_samples = mat.shape[0]
         if n_samples < self.k:
             raise ValueError("number of samples must be >= k")
@@ -79,6 +68,7 @@ class KMeans:
         random_ind = rng.choice(n_samples, size=self.k, replace=False)
         centroids = mat[random_ind]
 
+        # run until either 1. the centroids shift each iteration by less than some tolerance or 2. max iterations is hit
         for iter in range(self.max_iter):
             # find nearest cetroid to each datapoint
             dist = cdist(mat, centroids,  metric='euclidean')
@@ -87,10 +77,14 @@ class KMeans:
 
             # re calculate the center of mass for the updated centroid
             new_com = np.zeros_like(centroids) # initialize new matrix
-            for j in range(self.k):
+            for j in range(self.k): # loop thru clusters
                 # the new centroid needs to be the mean of all points assigned to that cluster in prev step, so extract the assigned data points for this cluster j
                 cluster_points = mat[labels==j] 
-                new_com[j] = np.mean(cluster_points, axis=0)
+                # if a cluster is empty, keep the old centroid 
+                if cluster_points.shape[0] == 0:
+                    new_com[j] = centroids[j]
+                else:
+                    new_com[j] = np.mean(cluster_points, axis=0)
 
             # check for convergence. end the loop either if iter reaches max iter, or the cluster assignments do not change anymore within some tolerance
             centroid_shift = np.linalg.norm(new_com - centroids, axis=1)
@@ -127,7 +121,7 @@ class KMeans:
         if self.centroids is None:
             raise RuntimeError("must call fit() before predicting")
         
-
+        # get distacnes & labels provided the centroids from fit()
         distances = cdist(mat, self.centroids, metric='euclidean')
         labels = np.argmin(distances, axis=1)
 
@@ -145,7 +139,7 @@ class KMeans:
         """
         if self.error is None:
             raise RuntimeError("model has not been fit yet; no error")
-        
+        # grap erros from fit()
         return self.error
 
     def get_centroids(self) -> np.ndarray:
@@ -158,4 +152,6 @@ class KMeans:
         """
         if self.centroids is None:
             raise RuntimeError("model has not been fit yet; no centroids")
+        
+        # grab centroids from fit()
         return self.centroids
